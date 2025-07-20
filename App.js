@@ -1,11 +1,11 @@
 import React from 'react'
 import { Text, View } from 'react-native'
+import "./global.css"
+import Navigator from './src/Navigator/Navigator'
 
 function App() {
   return (
-    <View className='w-full h-full bg-white '>
-      <Text>Hello</Text>
-    </View>
+    <Navigator />
   )
 }
 

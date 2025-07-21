@@ -21,37 +21,40 @@ const images = [
 
 export default function ImageSlider() {
   const flatListRef = useRef(null);
+  const currentIndexRef = useRef(0); // for interval tracking
   const [currentIndex, setCurrentIndex] = useState(0);
   const viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 };
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
       const newIndex = viewableItems[0].index;
-      if (newIndex !== null && newIndex !== currentIndex) {
+      if (newIndex !== null) {
         setCurrentIndex(newIndex);
+        currentIndexRef.current = newIndex;
       }
     }
   }).current;
 
-  // Auto-slide on mount
   useEffect(() => {
     const interval = setInterval(() => {
-      const nextIndex = (currentIndex + 1) % images.length;
+      const nextIndex = (currentIndexRef.current + 1) % images.length;
       flatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
+      currentIndexRef.current = nextIndex;
+      setCurrentIndex(nextIndex);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, []); // Run only once on mount
 
   const goToSlide = (offset) => {
     const newIndex = (currentIndex + offset + images.length) % images.length;
     flatListRef.current?.scrollToIndex({ index: newIndex, animated: true });
     setCurrentIndex(newIndex);
+    currentIndexRef.current = newIndex;
   };
 
   return (
-    <View className="relative ">
-      {/* Slider */}
+    <View className="relative">
       <FlatList
         data={images}
         ref={flatListRef}
@@ -99,9 +102,8 @@ export default function ImageSlider() {
           return (
             <View
               key={index}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                isActive ? 'w-10 bg-white' : 'w-4 bg-gray-400'
-              }`}
+              className={`h-2 rounded-full transition-all duration-300 ${isActive ? 'w-10 bg-white' : 'w-4 bg-gray-400'
+                }`}
             />
           );
         })}

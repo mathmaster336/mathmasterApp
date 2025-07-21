@@ -64,7 +64,7 @@ export default function AnimatedCard({ card, index, onPress }) {
         marginBottom: 16,
         borderRadius: 16,
         overflow: 'hidden',
-        backgroundColor: '#ccc', // fallback background in case gradient fails
+        // backgroundColor: '#ccc', // fallback background in case gradient fails
       }}
       activeOpacity={0.8}
     >

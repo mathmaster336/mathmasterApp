@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import {
     View,
     TextInput,
@@ -12,12 +12,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImageSlider from '../CommonCoponents/ImageSlider';
 import AnimatedCard from './AnimatedCard'; // <== We'll define this component next
+import { commonContext } from '../../ContextApi/commonContext';
 
 export default function Home() {
     const navigation = useNavigation();
     const scrollY = useRef(new Animated.Value(0)).current;
     const [searchFocused, setSearchFocused] = useState(false);
     const [searchText, setSearchText] = useState('');
+    const { theme } = useContext(commonContext);
+    const isDark = theme === 'dark';
+
 
     const headerHeight = scrollY.interpolate({
         inputRange: [0, 100],
@@ -57,20 +61,22 @@ export default function Home() {
     ];
 
     return (
-        <View className="flex-1 bg-gray-100">
+        <View className={`flex-1  ${isDark ? 'bg-gray-800' : 'bg-gray-100'}`}>
             {/* Animated Header */}
             <Animated.View
                 style={{ height: headerHeight }}
-                className="px-4 bg-white justify-center"
+                className={`px-2 ${isDark ? ' bg-gray-900' : 'bg-white '} justify-center`}
             >
-                <View className="flex-row items-center mt-4 mb-2 space-x-2">
-                    <View className="flex-row items-center bg-gray-100 rounded-lg flex-1 px-2">
-                        <Ionicons name="search-outline" size={20} color="gray" className="mr-2" />
+                <View className="flex-row items-center mt-2 mb-2 ">
+                    <View className={`flex-row items-center ${isDark ? ' bg-black' : 'bg-gray-100'} rounded-xl flex-1 px-1`}>
+                        <Ionicons name="search-outline" size={20} color="gray" className="mr-3" />
                         <TextInput
                             value={searchText}
                             onChangeText={setSearchText}
                             placeholder="Search..."
-                            className="flex-1 text-base"
+                            className={`flex-1 text-base ${isDark ? 'text-white' : 'text-blue-500'} `}
+                            placeholderTextColor={isDark ? '#aaa' : '#888'}
+
                             onFocus={() => setSearchFocused(true)}
                             onBlur={() => setSearchFocused(false)}
                         />

@@ -32,16 +32,14 @@ export default function Login() {
         className="flex-1 justify-center px-6"
       >
         <View
-          className={`p-6 rounded-2xl shadow-md w-full max-w-md self-center ${
-            isDark ? 'bg-gray-800' : 'bg-white'
-          }`}
+          className={`p-6 rounded-2xl shadow-md w-full max-w-md self-center ${isDark ? 'bg-gray-800' : 'bg-white'
+            }`}
         >
           {/* Header */}
           <View className="w-full flex items-center mb-6">
             <Text
-              className={`font-bold text-3xl ${
-                isDark ? 'text-white' : 'text-gray-700'
-              }`}
+              className={`font-bold text-3xl ${isDark ? 'text-white' : 'text-gray-700'
+                }`}
             >
               Math Master
             </Text>
@@ -115,7 +113,7 @@ export default function Login() {
           <Button
             mode="outlined"
             icon="google"
-            onPress={() => {}}
+            onPress={() => { }}
             className="rounded-md mb-4 border-blue-500"
             textColor="#2563eb"
             contentStyle={{ paddingVertical: 6 }}

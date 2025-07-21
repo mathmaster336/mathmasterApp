@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,96 +8,98 @@ import Home from '../Screens/Home/Home';
 import Courses from '../Screens/Courses/Courses';
 import Profile from '../Screens/Profiles/Profile';
 import CourseOverView from '../Screens/Courses/CourseOverView';
+import { commonContext } from '../ContextApi/commonContext';
 
 const MainStack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const BottomTab = createBottomTabNavigator();
 
-
 const BottomTabNavigator = () => {
+    const { theme } = useContext(commonContext);
+    const isDark = theme === 'dark';
+
     return (
         <BottomTab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
                 tabBarShowLabel: true,
+                tabBarHideOnKeyboard: true,
+
                 tabBarStyle: {
-                    height: 50,                // 👈 height of the whole tab bar
-                    backgroundColor: '#fff',
+                    height: 60,
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    paddingBottom: 5,
+                    backgroundColor: isDark ? '#1c1c1e' : '#ffffff',
+                    position: 'absolute',
+
                     borderTopWidth: 0,
-                    elevation: 0,
-                    paddingBottom: 5,          // 👈 reduce bottom padding
-                    paddingTop: 5,             // 👈 reduce top padding
+
                 },
-                tabBarItemStyle: {
-                    paddingVertical: 0,        // 👈 remove extra padding from each item
-                },
-                tabBarIcon: ({ focused, color, size }) => {
+                tabBarActiveTintColor: isDark ? '#0a84ff' : '#007aff',
+                tabBarInactiveTintColor: isDark ? '#aaa' : 'gray',
+
+
+
+                tabBarIcon: ({ focused, color }) => {
                     let iconName;
 
-                    if (route.name === 'HomeTab') {
-                        iconName = focused ? 'home' : 'home-outline';
-                    } else if (route.name === 'Courses') {
-                        iconName = focused ? 'book' : 'book-outline';
-                    } else if (route.name === 'Profile') {
-                        iconName = focused ? 'person' : 'person-outline';
-                    }
+                    if (route.name === 'HomeTab') iconName = focused ? 'home' : 'home-outline';
+                    else if (route.name === 'Courses') iconName = focused ? 'book' : 'book-outline';
+                    else if (route.name === 'Profile') iconName = focused ? 'person' : 'person-outline';
 
                     return <Ionicons name={iconName} size={20} color={color} />;
                 },
-                tabBarActiveTintColor: '#007aff',
-                tabBarInactiveTintColor: 'gray',
             })}
         >
-            <BottomTab.Screen
-                name="HomeTab"
-                component={Home}
-                options={{ tabBarLabel: 'Home' }}
-            />
-            <BottomTab.Screen
-                name="Courses"
-                component={Courses}
-                options={{
-                    tabBarLabel: 'Courses',
-                    headerShown: false, // 👈 Hides only the Courses header
-                }}
-            />
-            <BottomTab.Screen
-                name="Profile"
-                component={Profile}
-                options={{ tabBarLabel: 'Profile' }}
-            />
+            <BottomTab.Screen name="HomeTab" component={Home} options={{ tabBarLabel: 'Home' }} />
+            <BottomTab.Screen name="Courses" component={Courses} options={{ tabBarLabel: 'Courses' }} />
+            <BottomTab.Screen name="Profile" component={Profile} options={{ tabBarLabel: 'Profile' }} />
         </BottomTab.Navigator>
     );
 };
 
-
 // ✅ Drawer Navigator (wrapping the Bottom Tabs)
 function DrawerNavigatorLayout() {
+    const { theme } = useContext(commonContext);
+    const isDark = theme === 'dark';
+
     return (
         <Drawer.Navigator
             screenOptions={{
                 headerStyle: {
                     height: 50,
-                    backgroundColor: '#d8e0ed',
+                    backgroundColor: isDark ? '#1c1c1e' : '#d8e0ed',
                 },
                 headerTitleStyle: {
                     fontSize: 18,
+                    color: isDark ? '#0a84ff' : '#000',
+                },
+                drawerStyle: {
+                    backgroundColor: isDark ? '#1c1c1e' : '#ffffff', // Drawer BG
+
+                },
+                sceneContainerStyle: {
+                    backgroundColor: isDark ? '#000000' : '#f2f2f2', // Main screen BG
+                },
+                drawerActiveTintColor: isDark ? '#0a84ff' : '#007aff',
+                drawerInactiveTintColor: isDark ? '#ccc' : '#333',
+                drawerLabelStyle: {
+                    fontSize: 16,
                 },
             }}
         >
             <Drawer.Screen name="Dashboard" component={BottomTabNavigator} />
-            {/* You can add more items here if needed */}
         </Drawer.Navigator>
     );
 }
-
 
 // ✅ Main Stack Navigator (root-level)
 function MainPageNavigator() {
     return (
         <MainStack.Navigator screenOptions={{ headerShown: false }}>
             <MainStack.Screen name="MainDrawer" component={DrawerNavigatorLayout} />
-            <MainStack.Screen name='CourseOverview' component={CourseOverView} />
+            <MainStack.Screen name="CourseOverview" component={CourseOverView} />
         </MainStack.Navigator>
     );
 }

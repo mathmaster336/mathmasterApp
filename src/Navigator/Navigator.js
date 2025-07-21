@@ -1,13 +1,24 @@
 import { NavigationContainer } from "@react-navigation/native"
 import AuthNavigator from "./AuthNavigator"
 import MainPageNavigator from "./MainPageNavigator"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { ThemeProvider } from "../ContextApi/ThemeContext"
 
-const Navigator =()=>{
-    return(
+const Navigator = () => {
+    const RootStack = createNativeStackNavigator();
+    const isLoggedIn = false
+    return (
+
         <NavigationContainer>
-            {/* <AuthNavigator /> */}
-            <MainPageNavigator/>
+            <RootStack.Navigator screenOptions={{ headerShown: false }}>
+
+                {isLoggedIn ? (<RootStack.Screen name="MainApp" component={MainPageNavigator} />)
+                    :
+                    (<RootStack.Screen name="auth" component={AuthNavigator} />)}
+            </RootStack.Navigator>
         </NavigationContainer>
+
+
 
     )
 }

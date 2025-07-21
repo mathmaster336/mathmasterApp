@@ -6,7 +6,7 @@ import { ThemeProvider } from "../ContextApi/ThemeContext"
 
 const Navigator = () => {
     const RootStack = createNativeStackNavigator();
-    const isLoggedIn = false
+    const isLoggedIn = true
     return (
 
         <NavigationContainer>

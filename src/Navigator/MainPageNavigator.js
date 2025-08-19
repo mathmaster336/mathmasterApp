@@ -9,10 +9,23 @@ import Courses from '../Screens/Courses/Courses';
 import Profile from '../Screens/Profiles/Profile';
 import CourseOverView from '../Screens/Courses/CourseOverView';
 import { commonContext } from '../ContextApi/commonContext';
+import EditProfile from '../Screens/Profiles/EditProfile';
 
 const MainStack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const BottomTab = createBottomTabNavigator();
+const ProfileStack =createNativeStackNavigator();
+
+
+function ProfilePages(){
+    return(
+        <ProfileStack.Navigator screenOptions={{headerShown:false}}>
+            <ProfileStack.Screen name='profilepage' component={Profile}/>
+            <ProfileStack.Screen name='editprofile' component={EditProfile}/>
+
+        </ProfileStack.Navigator>
+    )
+}
 
 const BottomTabNavigator = () => {
     const { theme } = useContext(commonContext);
@@ -26,7 +39,7 @@ const BottomTabNavigator = () => {
                 tabBarHideOnKeyboard: true,
 
                 tabBarStyle: {
-                    height: 60,
+                    height: "10%",
                     borderTopLeftRadius: 10,
                     borderTopRightRadius: 10,
                     paddingBottom: 5,
@@ -54,7 +67,7 @@ const BottomTabNavigator = () => {
         >
             <BottomTab.Screen name="HomeTab" component={Home} options={{ tabBarLabel: 'Home' }} />
             <BottomTab.Screen name="Courses" component={Courses} options={{ tabBarLabel: 'Courses' }} />
-            <BottomTab.Screen name="Profile" component={Profile} options={{ tabBarLabel: 'Profile' }} />
+            <BottomTab.Screen name="Profile" component={ProfilePages} options={{ tabBarLabel: 'Profile' }} />
         </BottomTab.Navigator>
     );
 };
@@ -68,11 +81,11 @@ function DrawerNavigatorLayout() {
         <Drawer.Navigator
             screenOptions={{
                 headerStyle: {
-                    height: 50,
+                    height:70,
                     backgroundColor: isDark ? '#1c1c1e' : '#d8e0ed',
                 },
                 headerTitleStyle: {
-                    fontSize: 18,
+                    fontSize: 15,
                     color: isDark ? '#0a84ff' : '#000',
                 },
                 drawerStyle: {
@@ -85,7 +98,7 @@ function DrawerNavigatorLayout() {
                 drawerActiveTintColor: isDark ? '#0a84ff' : '#007aff',
                 drawerInactiveTintColor: isDark ? '#ccc' : '#333',
                 drawerLabelStyle: {
-                    fontSize: 16,
+                    fontSize: 14,
                 },
             }}
         >
@@ -105,3 +118,4 @@ function MainPageNavigator() {
 }
 
 export default MainPageNavigator;
+

@@ -15,6 +15,8 @@ export default function ForgotPassword() {
 
     const handleReset = () => {
         alert('Password reset link sent!');
+        console.log(email)
+        setEmail('')
         navigation.goBack();
     };
 
@@ -26,7 +28,7 @@ export default function ForgotPassword() {
             >
                 <View className={`p-6 rounded-2xl shadow-md w-full max-w-md self-center ${currentTheme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
                     <View className="w-full flex items-center mb-6">
-                        <Text variant="headlineMedium" style={{ color: colors.primary, fontWeight: 'bold' }}>
+                        <Text variant="headlineMedium" style={{ color: '#3B82F6', fontWeight: 'bold' }}>
                             Forgot Password
                         </Text>
                         <Text style={{ color: colors.outline }} className="mt-1 text-center">
@@ -51,7 +53,7 @@ export default function ForgotPassword() {
                         onPress={handleReset}
                         disabled={!isFormValid}
                         style={{ borderRadius: 14, marginTop: 20 }}
-                        buttonColor={colors.primary}
+                        buttonColor="#3B82F6"
                         contentStyle={{ paddingVertical: 10 }}
                         labelStyle={{ fontSize: 16, fontWeight: '600', color: 'white' }}
                     >
@@ -62,3 +64,5 @@ export default function ForgotPassword() {
         </SafeAreaView>
     );
 }
+
+

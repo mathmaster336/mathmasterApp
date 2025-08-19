@@ -1,26 +1,45 @@
-// src/api/axiosConfig.js
+// src/utils/axiosInstance.js
+import axios from "axios";
+// import { getLocalStorage } from "../Utils/HelperMethods/Localstorage";
 
-import axios from 'axios';
-
-const MMapi = axios.create({
-    baseURL: 'https://your-api-url.com/api', // 🔁 Replace with your actual API
-    timeout: 10000,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+// ✅ Axios for addmessage (auth, courses)
+export const MMapi = axios.create({
+    // baseURL: "https://authapi-t6kumycyca-em.a.run.app",
+    baseURL: "http://192.168.1.4:5001/mathmaster-cbffc/asia-south2/authApi"
+    // or Firebase URL: "https://asia-south2-<project-id>.cloudfunctions.net/addmessage"
 });
 
-// Optional: Interceptors for auth token or error handling
-axiosInstance.interceptors.request.use(
-    async config => {
-        // const token = await AsyncStorage.getItem('token'); // If you're using tokens
-        const token = "your_auth_token_here"
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    error => Promise.reject(error)
-);
+// ✅ Axios for contentapi (content-related data)
+export const ContentApi = axios.create({
+    baseURL: "https://contentapi-t6kumycyca-em.a.run.app",
+    // baseURL:"http://127.0.0.1:5001/mathmaster-cbffc/asia-south2/contentApi"
+    // or Firebase URL: "https://asia-south2-<project-id>.cloudfunctions.net/contentapi"
+});
 
-export default MMapi;
+// Common request interceptor for both
+const attachToken = (config) => {
+    //   const token = getLocalStorage("token");
+    const token = "mmauth"
+    if (token) {
+        config.headers.authorization = `Bearer ${token}`;
+    }
+    config.headers.userType = "admin";
+    return config;
+};
+
+// Attach interceptors
+[MMapi, ContentApi].forEach((instance) => {
+    instance.interceptors.request.use(attachToken, (error) => Promise.reject(error));
+
+    instance.interceptors.response.use(
+        (response) => response.data,
+        (error) => {
+            if (error.response?.status === 401) {
+                console.warn("Unauthorized - redirect or logout user");
+            }
+            return Promise.reject(error);
+        }
+    );
+});
+
+

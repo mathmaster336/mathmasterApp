@@ -17,6 +17,7 @@ export default function Login() {
 
   const handleLogin = () => {
     setLoading(true);
+    
     setTimeout(() => {
       setLoading(false);
       navigation.navigate('Second');

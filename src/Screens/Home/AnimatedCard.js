@@ -1,12 +1,8 @@
-import React, { useEffect } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+
+import React, { useEffect, useRef } from 'react';
+import { TouchableOpacity, Text, Animated } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated';
 import { useIsFocused } from '@react-navigation/native';
 
 const getInitialPosition = (from) => {
@@ -27,33 +23,39 @@ const getInitialPosition = (from) => {
 export default function AnimatedCard({ card, index, onPress }) {
   const isFocused = useIsFocused();
 
-  const opacity = useSharedValue(0);
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
-
-  const initialPos = getInitialPosition(card.from);
+  const opacity = useRef(new Animated.Value(0)).current;
+  const translateX = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (isFocused) {
-      // Start from initial position
-      opacity.value = 0;
-      translateX.value = initialPos.x;
-      translateY.value = initialPos.y;
+      const initialPos = getInitialPosition(card.from);
+
+      // Set initial values
+      translateX.setValue(initialPos.x);
+      translateY.setValue(initialPos.y);
+      opacity.setValue(0);
 
       // Animate to final position
-      opacity.value = withTiming(1, { duration: 500 });
-      translateX.value = withTiming(0, { duration: 500 });
-      translateY.value = withTiming(0, { duration: 500 });
+      Animated.parallel([
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateX, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateY, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ]).start();
     }
   }, [isFocused]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [
-      { translateX: translateX.value },
-      { translateY: translateY.value },
-    ],
-  }));
 
   return (
     <TouchableOpacity
@@ -64,11 +66,19 @@ export default function AnimatedCard({ card, index, onPress }) {
         marginBottom: 16,
         borderRadius: 16,
         overflow: 'hidden',
-        // backgroundColor: '#ccc', // fallback background in case gradient fails
       }}
       activeOpacity={0.8}
     >
-      <Animated.View style={[{ flex: 1 }, animatedStyle]}>
+      <Animated.View
+        style={{
+          flex: 1,
+          opacity,
+          transform: [
+            { translateX },
+            { translateY },
+          ],
+        }}
+      >
         <LinearGradient
           colors={card.colors}
           style={{
@@ -79,7 +89,9 @@ export default function AnimatedCard({ card, index, onPress }) {
           }}
         >
           <Ionicons name={card.icon} size={28} color="#fff" />
-          <Text style={{ color: '#fff', fontWeight: '600', marginTop: 4 }}>{card.label}</Text>
+          <Text style={{ color: '#fff', fontWeight: '600', marginTop: 4 }}>
+            {card.label}
+          </Text>
         </LinearGradient>
       </Animated.View>
     </TouchableOpacity>

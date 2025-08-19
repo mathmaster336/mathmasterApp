@@ -39,7 +39,7 @@ const RootStack = createNativeStackNavigator();
 
 const Navigator = () => {
     const { theme } = useContext(commonContext);
-    const isLoggedIn = true; // Replace with actual login state
+    const isLoggedIn = false; // Replace with actual login state
 
     return (
         <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>

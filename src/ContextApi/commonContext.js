@@ -6,6 +6,7 @@ export const commonContext = createContext();
 export const CommonProvider = ({ children }) => {
     const systemTheme = useColorScheme(); // 'light' or 'dark'
     const [theme, setTheme] = useState(systemTheme || 'light');
+    const [isLoggedIn,setisLoggedIn]=useState(false)
 
     const toggleTheme = () => {
         setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
@@ -16,7 +17,7 @@ export const CommonProvider = ({ children }) => {
     }, [systemTheme]);
 
     return (
-        <commonContext.Provider value={{ theme, toggleTheme }}>
+        <commonContext.Provider value={{ theme, toggleTheme,isLoggedIn,setisLoggedIn }}>
             {children}
         </commonContext.Provider>
     );

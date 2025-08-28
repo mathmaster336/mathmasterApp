@@ -5,6 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { commonContext } from '../ContextApi/commonContext';
 import { useNavigation } from '@react-navigation/native';
 import { Text } from 'react-native';
+import auth from '@react-native-firebase/auth';
+import { MMapi } from '../Services/Axious/MMapi';
+import { getDeviceUniqueId } from '../firebaseMethod/deviceHelper';
+import StorageHelper from '../firebaseMethod/storageHelper';
+// import {auth} from "../../firebase"
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -12,18 +17,49 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
-  const { theme, toggleTheme } = useContext(commonContext);
+  const { theme, toggleTheme, setisLoggedIn, isLoggedIn } = useContext(commonContext);
   const isDark = theme === 'dark';
 
-  const handleLogin = () => {
-    setLoading(true);
-    
-    setTimeout(() => {
-      setLoading(false);
-      navigation.navigate('Second');
-    }, 1500);
-  };
+  const handleLogin = async () => {
+    debugger;
+    if (!email.trim() || !password.trim()) return;
 
+    setLoading(true);
+    try {
+      // Sign in with Firebase email & password
+      const userCredential = await auth().signInWithEmailAndPassword(email, password);
+
+      const uid = userCredential.user.uid;
+      const deviceId = await getDeviceUniqueId();
+
+
+      console.log("Uidu", uid);
+      console.log("DeviceID ", deviceId);
+
+
+      console.log("Logged in user:", userCredential.user.email);
+      // navigation.navigate('Second');
+      setisLoggedIn(!isLoggedIn)
+      StorageHelper.storeData("user_token", uid)
+
+    } catch (error) {
+      // console.log("Login Error: ", error);
+
+      // // Show alert or error message
+      // let errorMessage = "Something went wrong!";
+      // if (error.code === 'auth/invalid-email') {
+      //   errorMessage = "Invalid email format!";
+      // } else if (error.code === 'auth/user-not-found') {
+      //   errorMessage = "No user found with this email.";
+      // } else if (error.code === 'auth/wrong-password') {
+      //   errorMessage = "Incorrect password.";
+      // }
+
+      alert(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const isFormValid = email.trim() !== '' && password.trim() !== '';
 
   return (

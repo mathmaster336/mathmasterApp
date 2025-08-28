@@ -1,9 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { View, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { Text, TextInput, Button, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { commonContext } from '../ContextApi/commonContext';
+// import auth from '@react-native-firebase/auth';
+import {getApp}  from '@react-native-firebase/app';
+import {getAuth}  from '@react-native-firebase/auth';
+import { sendPasswordResetEmail } from '@react-native-firebase/auth';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -13,11 +17,32 @@ export default function ForgotPassword() {
 
     const isFormValid = email.trim() !== '';
 
-    const handleReset = () => {
-        alert('Password reset link sent!');
-        console.log(email)
-        setEmail('')
-        navigation.goBack();
+    const handleReset = async () => {
+        if (!email) {
+            Alert.alert("Error", "Please enter your email address");
+            return;
+        }
+
+        const app =getApp();
+        const auth =getAuth();
+
+        try {
+            await sendPasswordResetEmail(auth,email);
+            Alert.alert(
+                "Success",
+                "Password reset email sent! Check your inbox.",
+                [{ text: "OK", onPress: () => navigation.goBack() }]
+            );
+        } catch (error) {
+            console.log(error);
+            if (error.code === "auth/user-not-found") {
+                Alert.alert("Error", "No account found with this email.");
+            } else if (error.code === "auth/invalid-email") {
+                Alert.alert("Error", "Invalid email address.");
+            } else {
+                Alert.alert("Error", "Something went wrong, try again.");
+            }
+        }
     };
 
     return (
@@ -26,16 +51,27 @@ export default function ForgotPassword() {
                 behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                 className="flex-1 justify-center px-6"
             >
-                <View className={`p-6 rounded-2xl shadow-md w-full max-w-md self-center ${currentTheme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
+                <View
+                    className={`p-6 rounded-2xl shadow-md w-full max-w-md self-center ${currentTheme === 'dark' ? 'bg-gray-800' : 'bg-white'
+                        }`}
+                >
+                    {/* Header */}
                     <View className="w-full flex items-center mb-6">
-                        <Text variant="headlineMedium" style={{ color: '#3B82F6', fontWeight: 'bold' }}>
+                        <Text
+                            variant="headlineMedium"
+                            style={{ color: '#3B82F6', fontWeight: 'bold' }}
+                        >
                             Forgot Password
                         </Text>
-                        <Text style={{ color: colors.outline }} className="mt-1 text-center">
+                        <Text
+                            style={{ color: colors.outline }}
+                            className="mt-1 text-center"
+                        >
                             Enter your email to receive a reset link
                         </Text>
                     </View>
 
+                    {/* Email Input */}
                     <TextInput
                         label="Email"
                         value={email}
@@ -48,6 +84,7 @@ export default function ForgotPassword() {
                         style={{ backgroundColor: colors.surface }}
                     />
 
+                    {/* Submit Button */}
                     <Button
                         mode="contained"
                         onPress={handleReset}
@@ -64,5 +101,3 @@ export default function ForgotPassword() {
         </SafeAreaView>
     );
 }
-
-

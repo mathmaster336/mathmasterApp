@@ -101,19 +101,19 @@ export default function Home() {
                 scrollEventThrottle={16}
                 contentContainerStyle={{ padding: 16 }}
             >
-                <View className="p-2">
+                {/* <View className="p-2">
                     <ImageSlider />
-                </View>
-
+                </View> */}
+                
                 <View className="flex-row flex-wrap justify-between mt-4">
-                    {cards.map((card, index) => (
+                    {/* {cards.map((card, index) => (
                         <AnimatedCard
                             key={index}
                             index={index}
                             card={card}
                             onPress={() => navigation.navigate(card.screen)}
                         />
-                    ))}
+                    ))} */}
                 </View>
             </Animated.ScrollView>
         </View>

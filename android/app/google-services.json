@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "960927054246",
+    "firebase_url": "https://mathmaster-cbffc-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mathmaster-cbffc",
+    "storage_bucket": "mathmaster-cbffc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960927054246:android:8d5e093cedcc7021b9b767",
+        "android_client_info": {
+          "package_name": "com.math"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960927054246-vn8r76psd5helf5eg43l4u8laji829a9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNvQeng3wjYhrprfWNCEEqq6e3F5cJAKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960927054246-vn8r76psd5helf5eg43l4u8laji829a9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960927054246:android:32366490356733e4b9b767",
+        "android_client_info": {
+          "package_name": "com.mathmaster.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960927054246-vn8r76psd5helf5eg43l4u8laji829a9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNvQeng3wjYhrprfWNCEEqq6e3F5cJAKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960927054246-vn8r76psd5helf5eg43l4u8laji829a9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

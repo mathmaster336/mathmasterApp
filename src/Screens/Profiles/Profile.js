@@ -1,8 +1,11 @@
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
-import { Card, Text, Avatar, FAB } from 'react-native-paper';
+import { Card, Text, Avatar, FAB, Button } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth, { signOut } from "@react-native-firebase/auth"
+import StorageHelper from '../../firebaseMethod/storageHelper';
+import { commonContext } from '../../ContextApi/commonContext';
 
 function Profile({ navigation }) {
     const profileData = {
@@ -22,6 +25,8 @@ function Profile({ navigation }) {
         profileImage: 'https://i.pravatar.cc/300',
     };
 
+    const { theme, isLoggedIn, setisLoggedIn } = useContext(commonContext);
+
     const DetailItem = ({ icon, label, value }) => (
         <View className="flex-row items-start mb-3">
             <Icon name={icon} size={22} color="#555" style={{ marginRight: 10, marginTop: 2 }} />
@@ -36,6 +41,20 @@ function Profile({ navigation }) {
         // Navigate to EditProfile screen or open a modal
         navigation?.navigate?.('editprofile'); // You must create this screen
     };
+    const handleLogout = async () => {
+        debugger
+        try {
+            // await auth().signOut();
+            // await auth.signOut()
+            await StorageHelper.removeData("user_token");
+            console.log(StorageHelper.getData("user_token"))
+
+            setisLoggedIn(false); // user is logged out
+        } catch (error) {
+            console.log("Logout Error:", error);
+        }
+    };
+
 
     return (
         <SafeAreaView className="flex-1 bg-white relative pb-20">
@@ -74,7 +93,7 @@ function Profile({ navigation }) {
                     </Card.Content>
                 </Card>
                 {/* FAB Edit Button */}
-                <FAB
+                {/* <FAB
                     icon="pencil"
                     label="Edit"
                     style={{
@@ -83,7 +102,19 @@ function Profile({ navigation }) {
                         bottom: 30,
                     }}
                     onPress={handleEditPress}
+                /> */}
+
+                <FAB
+                    icon="pencil"
+                    label="logout"
+                    style={{
+                        position: 'absolute',
+                        left: 20,
+                        bottom: 30,
+                    }}
+                    onPress={handleLogout}
                 />
+
             </ScrollView>
 
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,18 +10,22 @@ import Profile from '../Screens/Profiles/Profile';
 import CourseOverView from '../Screens/Courses/CourseOverView';
 import { commonContext } from '../ContextApi/commonContext';
 import EditProfile from '../Screens/Profiles/EditProfile';
+import { ContentApi } from '../Services/Axious/MMapi';
 
 const MainStack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 const BottomTab = createBottomTabNavigator();
-const ProfileStack =createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
+
+// const { theme, courses, setCourses } = useContext(commonContext);
+// const isDark = theme === 'dark';
 
 
-function ProfilePages(){
-    return(
-        <ProfileStack.Navigator screenOptions={{headerShown:false}}>
-            <ProfileStack.Screen name='profilepage' component={Profile}/>
-            <ProfileStack.Screen name='editprofile' component={EditProfile}/>
+function ProfilePages() {
+    return (
+        <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
+            <ProfileStack.Screen name='profilepage' component={Profile} />
+            <ProfileStack.Screen name='editprofile' component={EditProfile} />
 
         </ProfileStack.Navigator>
     )
@@ -81,7 +85,7 @@ function DrawerNavigatorLayout() {
         <Drawer.Navigator
             screenOptions={{
                 headerStyle: {
-                    height:70,
+                    height: 70,
                     backgroundColor: isDark ? '#1c1c1e' : '#d8e0ed',
                 },
                 headerTitleStyle: {
@@ -103,12 +107,34 @@ function DrawerNavigatorLayout() {
             }}
         >
             <Drawer.Screen name="Dashboard" component={BottomTabNavigator} />
+            {/* <Drawer.Screen name="HomeTab" component={Home} options={{ tabBarLabel: 'Home' }} /> */}
+            <Drawer.Screen name="Courses" component={Courses} options={{ tabBarLabel: 'Courses' }} />
+            <Drawer.Screen name="Profile" component={ProfilePages} options={{ tabBarLabel: 'Profile' }} />
+
         </Drawer.Navigator>
     );
 }
 
 // ✅ Main Stack Navigator (root-level)
 function MainPageNavigator() {
+    // const { setCourses } = useContext(commonContext);
+    // //   const isDark = theme === 'dark';
+
+    // useEffect(() => {
+    //     const fetchCourses = async () => {
+    //         try {
+    //             const res = await ContentApi.post("/courses/userallcourses", {});
+    //             console.log(res)
+    //             res && setCourses(res);
+    //         } catch (e) {
+    //             console.error("Error fetching courses:", e);
+    //         }
+    //     };
+
+    //     fetchCourses();
+    // }, []);
+
+
     return (
         <MainStack.Navigator screenOptions={{ headerShown: false }}>
             <MainStack.Screen name="MainDrawer" component={DrawerNavigatorLayout} />

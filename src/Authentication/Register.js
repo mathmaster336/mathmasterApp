@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -6,7 +6,6 @@ import {
   Platform,
   Text,
   ScrollView,
-  useColorScheme,
 } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,7 +16,6 @@ import { MMapi } from '../Services/Axious/MMapi';
 export default function Register() {
   const { theme } = useContext(commonContext); // you can still use your custom theme if needed
   const navigation = useNavigation();
-  const colorScheme = useColorScheme(); // auto detect system dark/light
 
   const isDark = theme === 'dark';
 

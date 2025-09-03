@@ -3,16 +3,16 @@ import {
     View,
     TextInput,
     Animated,
-    ScrollView,
     TouchableOpacity,
     Text,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import ImageSlider from '../CommonCoponents/ImageSlider';
 import AnimatedCard from './AnimatedCard'; // <== We'll define this component next
 import { commonContext } from '../../ContextApi/commonContext';
+import CourseCard from '../CommonCoponents/CourseCard';
+import CourseCardSlider from '../CommonCoponents/courseSlider';
+import { Icon } from 'react-native-paper';
 
 export default function Home() {
     const navigation = useNavigation();
@@ -21,6 +21,7 @@ export default function Home() {
     const [searchText, setSearchText] = useState('');
     const { theme } = useContext(commonContext);
     const isDark = theme === 'dark';
+    const [CourseInfo, setCourseInfo] = useState();
 
 
     const headerHeight = scrollY.interpolate({
@@ -28,6 +29,20 @@ export default function Home() {
         outputRange: [60, 0],
         extrapolate: 'clamp',
     });
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            // try {
+            //     const res = await ContentApi.post("/courses/userAllcourse", {});
+            //     console.log("Courses response:", res);
+            //     setCourseInfo(res); // store only the data
+            // } catch (error) {
+            //     console.error("Error fetching courses", error);
+            // }
+        };
+
+        fetchCourses();
+    }, []);
 
     const cards = [
         {
@@ -59,6 +74,27 @@ export default function Home() {
             from: 'bottomRight',
         },
     ];
+
+
+    const course = {
+        id: "sX3IOON0x4vUenf7hLMO",
+        courseName: "Criminal law",
+        price: "200",
+        desc: "Short",
+        shortdesc: "Short description this is Course",
+        mentorName: "Nitu",
+        language: "English",
+        introimg: "https://firebasestorage.googleapis.com/v0/b/mathmaster-cbffc.firebasestorage.app/o/courses%2FCriminal%20law%20%2F1000260052.jpg?alt=media&token=21cf82f8-e7dd-451f-bbd9-17741929cb4d",
+        introVideo: "https://firebasestorage.googleapis.com/v0/b/mathmaster-cbffc.firebasestorage.app/o/courses%2FCriminal%20law%20%2F1000259973.mp4?alt=media&token=f5c1e281-98e5-4798-9e52-ba6442a8919a",
+        video: true,
+        pdf: true,
+        images: true,
+        createdAt: 1751891177368,
+        class: "9",
+        medium: "English",
+        isActive: true
+    };
+
 
     return (
         <View className={`flex-1  ${isDark ? 'bg-gray-800' : 'bg-gray-100'}`}>
@@ -101,19 +137,26 @@ export default function Home() {
                 scrollEventThrottle={16}
                 contentContainerStyle={{ padding: 16 }}
             >
-                {/* <View className="p-2">
-                    <ImageSlider />
-                </View> */}
-                
+
+
                 <View className="flex-row flex-wrap justify-between mt-4">
-                    {/* {cards.map((card, index) => (
+                    {cards.map((card, index) => (
                         <AnimatedCard
                             key={index}
                             index={index}
                             card={card}
                             onPress={() => navigation.navigate(card.screen)}
                         />
-                    ))} */}
+                    ))}
+                </View>
+
+                {/* <View>
+                    <CourseCard course={course} />
+                </View> */}
+                <View className="">
+                    {/* <IconButton icon="school" size={24} color="white" /> */}
+                    <Text className={`${isDark ? "text-gray-50" : "text-gray-600"} text-xl ml-2`}>Courses :-</Text>
+                    <CourseCardSlider />
                 </View>
             </Animated.ScrollView>
         </View>

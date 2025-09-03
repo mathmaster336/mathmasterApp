@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { Alert } from "react-native";
 import {
     NavigationContainer,
@@ -14,28 +14,14 @@ import { getDeviceUniqueId } from "../firebaseMethod/deviceHelper";
 import StorageHelper from "../firebaseMethod/storageHelper";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
+import { ContentApi } from "../Services/Axious/MMapi";
 
 const RootStack = createNativeStackNavigator();
 
 const Navigator = () => {
-    const { theme, isLoggedIn, setisLoggedIn } = useContext(commonContext);
-    // useEffect(() => {
-    //     const token = StorageHelper.getData("user_token")
-    //     console.log(token)
-    //     if (!token) {
+    const { theme, isLoggedIn, setCourses } = useContext(commonContext);
 
-    //         setisLoggedIn(false)
-    //     } else {
-    //         setisLoggedIn(true)
-    //     }
-    // })
-
-    // ✅ Check login only once when component mounts (using useMemo trick instead of useEffect)
     useMemo(() => {
-
-
-
-
         const checkLogin = async () => {
 
             const deviceId = await getDeviceUniqueId();
@@ -68,7 +54,20 @@ const Navigator = () => {
         };
 
         checkLogin();
+
     }, []); // ✅ ensures it runs only once at startup
+
+    useEffect(() => { fetchCourses(); }, [])
+    const fetchCourses = async () => {
+
+        try {
+            const res = await ContentApi.post("/courses/userallcourses", {});
+            console.log(res)
+            res && setCourses(res);
+        } catch (e) {
+            console.error("Error fetching courses:", e);
+        }
+    };
 
     return (
         <NavigationContainer theme={theme === "dark" ? DarkTheme : DefaultTheme}>

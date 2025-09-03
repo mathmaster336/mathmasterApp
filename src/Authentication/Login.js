@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import  { useContext, useState } from 'react';
 import { View, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,10 +6,8 @@ import { commonContext } from '../ContextApi/commonContext';
 import { useNavigation } from '@react-navigation/native';
 import { Text } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { MMapi } from '../Services/Axious/MMapi';
 import { getDeviceUniqueId } from '../firebaseMethod/deviceHelper';
 import StorageHelper from '../firebaseMethod/storageHelper';
-// import {auth} from "../../firebase"
 
 export default function Login() {
   const [email, setEmail] = useState('');

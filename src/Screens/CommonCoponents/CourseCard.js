@@ -3,8 +3,10 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { commonContext } from '../../ContextApi/commonContext';
 import { Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
 const CourseCard = ({ course }) => {
+    const navigate =useNavigation()
     const { theme, toggleTheme } = useContext(commonContext);
     const isDark = theme === 'dark';
     return (
@@ -136,6 +138,7 @@ const CourseCard = ({ course }) => {
                         mode="outlined"
                         dark={isDark}
                         style={{ width: 100 }}  // add some space
+                        onPress={()=>navigate.navigate("CourseOverview",{course})}
                     >
                         Explore
                     </Button>

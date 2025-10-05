@@ -5,14 +5,14 @@ import axios from "axios";
 // ✅ Axios for addmessage (auth, courses)
 export const MMapi = axios.create({
     baseURL: "https://authapi-t6kumycyca-em.a.run.app",
-    // baseURL: "http://192.168.1.7:5001/mathmaster-cbffc/asia-south2/authApi"
+    // baseURL: "http://192.168.1.3:5001/mathmaster-cbffc/asia-south2/authApi"
     // or Firebase URL: "https://asia-south2-<project-id>.cloudfunctions.net/addmessage"
 });
 
 // ✅ Axios for contentapi (content-related data)
 export const ContentApi = axios.create({
     // baseURL: "https://contentapi-t6kumycyca-em.a.run.app",
-    baseURL:"http://192.168.1.4:5001/mathmaster-cbffc/asia-south2/contentApi"
+    baseURL:"http://192.168.1.3:5001/mathmaster-cbffc/asia-south2/contentApi"
     // or Firebase URL: "https://asia-south2-<project-id>.cloudfunctions.net/contentapi"
 });
 

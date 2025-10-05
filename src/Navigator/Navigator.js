@@ -62,7 +62,8 @@ const Navigator = () => {
 
         try {
             const res = await ContentApi.post("/courses/userallcourses", {});
-            console.log(res)
+            // debugger
+            console.log(res,"courses in navigator")
             res && setCourses(res);
         } catch (e) {
             console.error("Error fetching courses:", e);

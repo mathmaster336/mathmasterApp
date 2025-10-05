@@ -7,20 +7,25 @@ function App() {
   const { theme, isLoggedIn, setisLoggedIn } = useContext(commonContext);
   useEffect(() => {
     const token = StorageHelper.getData("user_token")
-    console.log("app token",token)
-    
+    console.log("app token", token)
+
     if (!token) {
 
       setisLoggedIn(false)
     } else {
+      console.log("app token", token)
       setisLoggedIn(true)
+
+      if (token._j) {
+
+      }
     }
   }, [])
 
 
 
   return (
-   
+
     <Navigator />
   )
 }

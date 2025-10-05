@@ -31,6 +31,7 @@ export default function ForgotPassword() {
             Alert.alert(
                 "Success",
                 "Password reset email sent! Check your inbox.",
+                "Also Please Check your Spam Folder",
                 [{ text: "OK", onPress: () => navigation.goBack() }]
             );
         } catch (error) {

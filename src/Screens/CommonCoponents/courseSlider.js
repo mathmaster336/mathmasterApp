@@ -15,21 +15,7 @@ export default function CourseCardSlider() {
   const viewabilityConfig = { viewAreaCoveragePercentThreshold: 50 };
   const { theme, courses, setCourses } = useContext(commonContext);
   console.log(courses, "course from context")
-  // Fetch courses from API
-  // useEffect(() => {
-  //   const fetchCourses = async () => {
-  //     try {
-  //       const res = await ContentApi.post("/courses/userallcourses", {});
-  //       res && setCourses(res);
-  //     } catch (e) {
-  //       console.error("Error fetching courses:", e);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchCourses();
-  // }, []);
+  
 
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {

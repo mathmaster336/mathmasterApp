@@ -11,6 +11,8 @@ import CourseOverView from '../Screens/Courses/CourseOverView';
 import { commonContext } from '../ContextApi/commonContext';
 import EditProfile from '../Screens/Profiles/EditProfile';
 import { ContentApi } from '../Services/Axious/MMapi';
+import CustomDrawerContent from './NavigatorScreens/CustomDrawerContent';
+import DailyProblem from '../Screens/DailyProblems/DailyProblem';
 
 const MainStack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -83,6 +85,8 @@ function DrawerNavigatorLayout() {
 
     return (
         <Drawer.Navigator
+              drawerContent={(props) => <CustomDrawerContent {...props} />}
+
             screenOptions={{
                 headerStyle: {
                     height: 70,
@@ -110,6 +114,7 @@ function DrawerNavigatorLayout() {
             {/* <Drawer.Screen name="HomeTab" component={Home} options={{ tabBarLabel: 'Home' }} /> */}
             <Drawer.Screen name="Courses" component={Courses} options={{ tabBarLabel: 'Courses' }} />
             <Drawer.Screen name="Profile" component={ProfilePages} options={{ tabBarLabel: 'Profile' }} />
+            <Drawer.Screen name="DailyProblem" component={DailyProblem} options={{ tabBarLabel: 'Problem' }} />
 
         </Drawer.Navigator>
     );

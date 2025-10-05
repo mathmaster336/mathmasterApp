@@ -42,6 +42,7 @@ export default function Register() {
     if (password !== confirmPassword) return;
 
     try {
+      debugger
       const res = await MMapi.post("/auth/userregister", {
         email,
         password,
@@ -49,7 +50,9 @@ export default function Register() {
         mobileNo: Mob,
       });
 
-      console.log("✅ Registration Success:", res.data);
+
+
+      console.log("✅ Registration Success:", res);
       navigation.navigate("Login");
     } catch (error) {
       console.error("❌ API error:", error.response?.data || error.message);
